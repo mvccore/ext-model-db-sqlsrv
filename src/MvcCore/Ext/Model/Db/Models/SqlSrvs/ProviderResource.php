@@ -11,23 +11,29 @@
  * @license  https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Database\Models\SqlSrvs;
+namespace MvcCore\Ext\Models\Db\Models\SqlSrvs;
 
 trait ProviderResource {
-
+	
+	/**
+	 * Connection class full name, specific for each extension.
+	 * @var string
+	 */
+	protected static $providerConnectionClass = '\\MvcCore\\Ext\\Models\\Db\\Providers\\Connections\\SqlSrv';
+	
 	/**
 	 * Database provider specific resource class instance with universal SQL statements.
-	 * @var \MvcCore\Ext\Database\Providers\Resources\SqlSrv
+	 * @var \MvcCore\Ext\Models\Db\Providers\Resources\SqlSrv
 	 */
 	protected static $editProviderResource = NULL;
 
 	/**
 	 * Get database provider specific resource class instance with universal SQL statements.
-	 * @return \MvcCore\Ext\Database\Providers\Resources\SqlSrv
+	 * @return \MvcCore\Ext\Models\Db\Providers\Resources\SqlSrv
 	 */
 	protected static function getEditProviderResource () {
 		if (self::$editProviderResource === NULL)
-			self::$editProviderResource = new \MvcCore\Ext\Database\Providers\Resources\SqlSrv;
+			self::$editProviderResource = new \MvcCore\Ext\Models\Db\Providers\Resources\SqlSrv;
 		return self::$editProviderResource;
 	}
 }

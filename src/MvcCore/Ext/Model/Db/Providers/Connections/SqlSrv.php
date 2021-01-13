@@ -11,12 +11,12 @@
  * @license  https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Database\Providers\Connections;
+namespace MvcCore\Ext\Models\Db\Providers\Connections;
 
 class SqlSrv 
-extends \MvcCore\Ext\Database\Connection
-implements	\MvcCore\Ext\Database\Model\IConstants,
-			\MvcCore\Ext\Database\Models\SqlSrvs\IConstants {
+extends \MvcCore\Ext\Models\Db\Connection
+implements	\MvcCore\Ext\Models\Db\Model\IConstants,
+			\MvcCore\Ext\Models\Db\Models\SqlSrvs\IConstants {
 
 	/**
 	 * Microsoft SQL Server version in "PHP-standardized" version number string.

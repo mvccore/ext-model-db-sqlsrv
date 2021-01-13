@@ -11,9 +11,9 @@
  * @license  https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Database\Providers\Resources;
+namespace MvcCore\Ext\Models\Db\Providers\Resources;
 
-class SqlSrv extends \MvcCore\Ext\Database\Providers\Resources\Base {
+class SqlSrv extends \MvcCore\Ext\Models\Db\Providers\Resources\Base {
 
 	/**
 	 * @inheritDocs

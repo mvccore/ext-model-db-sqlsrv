@@ -11,14 +11,14 @@
  * @license  https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Database\Models\SqlSrvs;
+namespace MvcCore\Ext\Models\Db\Models\SqlSrvs;
 
 trait Features {
 
-	use \MvcCore\Ext\Database\Model\Props;
-	use \MvcCore\Ext\Database\Model\DataMethods;
-	use \MvcCore\Ext\Database\Model\Manipulation;
-	use \MvcCore\Ext\Database\Model\Merging;
+	use \MvcCore\Ext\Models\Db\Model\Props;
+	use \MvcCore\Ext\Models\Db\Model\DataMethods;
+	use \MvcCore\Ext\Models\Db\Model\Manipulation;
+	use \MvcCore\Ext\Models\Db\Model\Merging;
 	
-	use \MvcCore\Ext\Database\Models\SqlSrvs\ProviderResource;
+	use \MvcCore\Ext\Models\Db\Models\SqlSrvs\ProviderResource;
 }

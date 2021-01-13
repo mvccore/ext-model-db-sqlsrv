@@ -20,20 +20,4 @@ trait ProviderResource {
 	 * @var string
 	 */
 	protected static $providerConnectionClass = '\\MvcCore\\Ext\\Models\\Db\\Providers\\Connections\\SqlSrv';
-	
-	/**
-	 * Database provider specific resource class instance with universal SQL statements.
-	 * @var \MvcCore\Ext\Models\Db\Providers\Resources\SqlSrv
-	 */
-	protected static $editProviderResource = NULL;
-
-	/**
-	 * Get database provider specific resource class instance with universal SQL statements.
-	 * @return \MvcCore\Ext\Models\Db\Providers\Resources\SqlSrv
-	 */
-	protected static function getEditProviderResource () {
-		if (self::$editProviderResource === NULL)
-			self::$editProviderResource = new \MvcCore\Ext\Models\Db\Providers\Resources\SqlSrv;
-		return self::$editProviderResource;
-	}
 }

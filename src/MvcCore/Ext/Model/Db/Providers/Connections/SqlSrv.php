@@ -19,37 +19,14 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 			\MvcCore\Ext\Models\Db\Models\SqlSrvs\IConstants {
 
 	/**
-	 * Microsoft SQL Server version in "PHP-standardized" version number string.
-	 * @var string|NULL
+	 * @inheritDocs
+	 * @param string $identifierName
+	 * @return string
 	 */
-	protected $version = NULL;
-
-	/**
-	 * `TRUE` for multi statements connection type.
-	 * @var bool|NULL
-	 */
-	protected $multiStatements = NULL;
-
-
-
-	/**
-	 * Return server version in "PHP-standardized" version number string.
-	 * @return null|string
-	 */
-	public function GetVersion () {
-		return $this->version;
+	public function QuoteName ($identifierName) {
+		return "[{$identifierName}]";
 	}
 
-	/**
-	 * Return `TRUE` for multi statements connection type.
-	 * @return bool|null
-	 */
-	public function IsMutliStatements () {
-		return $this->mutliStatements;
-	}
-
-
-	
 	/**
 	 * @inheritDocs
 	 * @param int $flags Transaction isolation, read/write mode and consistent snapshot option.

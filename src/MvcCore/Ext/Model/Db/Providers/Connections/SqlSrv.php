@@ -19,12 +19,33 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 			\MvcCore\Ext\Models\Db\Models\SqlSrvs\IConstants {
 
 	/**
+	 * MS SQL Server connection is always multistatement.
+	 * @var bool
+	 */
+	protected $multiStatements = TRUE;
+
+	/**
+	 * Enabled/disabled multiple batches on a single connection.
+	 * @var bool
+	 */
+	protected $multipleActiveResultSets = FALSE;
+
+	/**
 	 * @inheritDocs
 	 * @param string $identifierName
 	 * @return string
 	 */
 	public function QuoteName ($identifierName) {
 		return "[{$identifierName}]";
+	}
+	
+	/**
+	 * Get `TRUE` if enabled multiple batches on a single connection,
+	 * `FALSE` by default.
+	 * @return bool
+	 */
+	public function GetMultipleActiveResultSets () {
+		return $this->multipleActiveResultSets;
 	}
 
 	/**
@@ -48,15 +69,15 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 		$sqlItems = [];
 
 		if (($flags & self::TRANS_ISOLATION_REPEATABLE_READ) > 0) {
-			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;\nGO;";
+			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;";
 		} else if (($flags & self::TRANS_ISOLATION_READ_COMMITTED) > 0) {
-			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL READ COMMITTED;\nGO;";
+			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL READ COMMITTED;";
 		} else if (($flags & self::TRANS_ISOLATION_READ_UNCOMMITTED) > 0) {
-			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;\nGO;";
+			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;";
 		} else if (($flags & self::TRANS_ISOLATION_SHAPSHOT) > 0) {
-			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL SNAPSHOT;\nGO;";
+			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL SNAPSHOT;";
 		} else if (($flags & self::TRANS_ISOLATION_SERIALIZABLE) > 0) {
-			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;\nGO;";
+			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;";
 		}
 
 		if ($name !== NULL) {
@@ -64,7 +85,7 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 			$this->transactionName = $toolClass::GetUnderscoredFromPascalCase($name);
 			$sqlItems[] = "/* trans_start:{$this->transactionName} */";
 		}
-		$sqlItems[] = "BEGIN TRANSACTION;\nGO;";
+		$sqlItems[] = "BEGIN TRANSACTION;";
 		
 		if ($this->multiStatements) {
 			$this->provider->exec(implode("\n", $sqlItems));
@@ -92,14 +113,9 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 		if ($this->transactionName !== NULL) 
 			$sqlItems[] = "/* trans_commit:{$this->transactionName} */";
 
-		$sqlItems[] = "COMMIT TRANSACTION;\nGO;";
+		$sqlItems[] = "COMMIT TRANSACTION;";
 
-		if ($this->multiStatements) {
-			$this->provider->exec(implode("\n", $sqlItems));
-		} else {
-			foreach ($sqlItems as $sqlItem)
-				$this->provider->exec($sqlItem);
-		}
+		$this->provider->exec(implode("\n", $sqlItems));
 		
 		$this->inTransaction  = FALSE;
 		$this->transactionName = NULL;
@@ -122,14 +138,9 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 		if ($this->transactionName !== NULL) 
 			$sqlItems[] = "/* trans_rollback:{$this->transactionName} */";
 
-		$sqlItems[] = "ROLLBACK TRANSACTION;\nGO;";
+		$sqlItems[] = "ROLLBACK TRANSACTION;";
 
-		if ($this->multiStatements) {
-			$this->provider->exec(implode("\n", $sqlItems));
-		} else {
-			foreach ($sqlItems as $sqlItem)
-				$this->provider->exec($sqlItem);
-		}
+		$this->provider->exec(implode("\n", $sqlItems));
 
 		$this->inTransaction  = FALSE;
 		$this->transactionName = NULL;
@@ -176,11 +187,11 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 	 * @return void
 	 */
 	protected function setUpConnectionSpecifics () {
-		$multiStatementsConst = '\PDO::ATTR_EMULATE_PREPARES';
-		$multiStatementsConstVal = defined($multiStatementsConst) 
-			? constant($multiStatementsConst) 
-			: 0;
-		$this->multiStatements = isset($this->options[$multiStatementsConstVal]);
+		$dsnLower = ';' . trim(mb_strtolower($this->dsn), ';') . ';';
+		$this->multipleActiveResultSets = (
+			mb_strpos($dsnLower, ';multipleactiveresultsets=true;') !== FALSE ||
+			mb_strpos($dsnLower, ';multipleactiveresultsets=1;') !== FALSE
+		);
 		
 		$serverVersionConst = '\PDO::ATTR_SERVER_VERSION';
 		$serverVersionConstVal = defined($serverVersionConst) 

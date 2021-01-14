@@ -152,18 +152,6 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 
 	/**
 	 * @inheritDocs
-	 * @return \PDO
-	 */
-	protected function connect () {
-		$this->provider = new \PDO(
-			$this->dsn, $this->username, $this->password, $this->options
-		);
-		$this->setUpConnectionSpecifics();
-		return $this->provider;
-	}
-
-	/**
-	 * @inheritDocs
 	 * @param \Throwable $e 
 	 * @return bool
 	 */
@@ -187,17 +175,12 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 	 * @return void
 	 */
 	protected function setUpConnectionSpecifics () {
+		parent::setUpConnectionSpecifics();
+		
 		$dsnLower = ';' . trim(mb_strtolower($this->dsn), ';') . ';';
 		$this->multipleActiveResultSets = (
 			mb_strpos($dsnLower, ';multipleactiveresultsets=true;') !== FALSE ||
 			mb_strpos($dsnLower, ';multipleactiveresultsets=1;') !== FALSE
 		);
-		
-		$serverVersionConst = '\PDO::ATTR_SERVER_VERSION';
-		$serverVersionConstVal = defined($serverVersionConst) 
-			? constant($serverVersionConst) 
-			: 0;
-		
-		$this->version = $this->provider->getAttribute($serverVersionConstVal);
 	}
 }

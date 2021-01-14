@@ -16,5 +16,5 @@ namespace MvcCore\Ext\Models\Db\Models\SqlSrvs;
 interface IConstants {
 
 	/** @var int */
-	const TRANS_ISOLATION_SHAPSHOT	= 16;
+	const TRANS_ISOLATION_SHAPSHOT	= 256;
 }

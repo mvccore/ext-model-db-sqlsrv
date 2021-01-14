@@ -16,6 +16,12 @@ namespace MvcCore\Ext\Models\Db\Models\SqlSrvs;
 trait ProviderResource {
 	
 	/**
+	 * Provider specific driver name.
+	 * @var string|NULL
+	 */
+	protected static $providerDriverName = 'sqlsrv';
+
+	/**
 	 * Connection class full name, specific for each extension.
 	 * @var string
 	 */

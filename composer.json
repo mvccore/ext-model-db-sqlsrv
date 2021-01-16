@@ -1,20 +1,20 @@
 {
 	"name": "mvccore/ext-model-db-sqlsrv",
 	"type": "library",
-	"description": "MvcCore - Extension - Model - Database - extension to work with Microsoft Sql Server queries in more comfortable API.",
+	"description": "MvcCore - Extension - Model - Database - Microsoft SQL - extension to work with Microsoft Sql Server queries in more comfortable API.",
 	"keywords": [
-		"mvc", 
-		"mvccore", 
-		"framework", 
-		"extension", 
-		"plugin", 
-		"plug-in", 
-		"ext", 
-		"model", 
-		"db", 
-		"database", 
-		"sqlsrv", 
-		"mssql", 
+		"mvc",
+		"mvccore",
+		"framework",
+		"extension",
+		"plugin",
+		"plug-in",
+		"ext",
+		"model",
+		"db",
+		"database",
+		"sqlsrv",
+		"mssql",
 		"microsoft"
 	],
 	"license": ["BSD-3-Clause"],
@@ -24,14 +24,16 @@
 	}],
 	"require": {
 		"php": ">=5.4.0",
-		"mvccore/mvccore": "dev-master",
-		"mvccore/ext-model-db": "dev-master"
+		"mvccore/mvccore": "^5.0",
+		"mvccore/ext-model-db": "^5.0"
 	},
 	"suggest": {
 		"mvccore/ext-cache-*": "MvcCore cache extensions to speed up operations driven by class anotations."
 	},
 	"autoload": {
-		"classmap": ["src/"]
+		"classmap": [
+			"src/"
+		]
 	},
 	"minimum-stability": "dev"
 }

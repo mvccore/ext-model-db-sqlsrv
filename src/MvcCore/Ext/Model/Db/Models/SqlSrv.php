@@ -15,7 +15,6 @@ namespace MvcCore\Ext\Models\Db\Models;
 
 class		SqlSrv
 implements	\MvcCore\IModel,
-			\MvcCore\Model\IConstants,
 			\MvcCore\Ext\Models\Db\IModel,
 			\MvcCore\Ext\Models\Db\Model\IConstants,
 			\MvcCore\Ext\Models\Db\Models\SqlSrvs\IConstants {

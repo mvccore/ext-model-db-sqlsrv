@@ -13,6 +13,9 @@
 
 namespace MvcCore\Ext\Models\Db\Models\SqlSrvs;
 
+/**
+ * @mixin \MvcCore\Ext\Models\Db\Models\SqlSrvs\Features
+ */
 trait ProviderResource {
 	
 	/**

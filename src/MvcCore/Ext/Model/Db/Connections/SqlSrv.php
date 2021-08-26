@@ -11,12 +11,12 @@
  * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENSE.md
  */
 
-namespace MvcCore\Ext\Models\Db\Providers\Connections;
+namespace MvcCore\Ext\Models\Db\Connections;
 
 class		SqlSrv 
 extends		\MvcCore\Ext\Models\Db\Connection
 implements	\MvcCore\Ext\Models\Db\Model\IConstants,
-			\MvcCore\Ext\Models\Db\Models\SqlSrvs\IConstants {
+			\MvcCore\Ext\Models\Db\Models\SqlSrv\IConstants {
 
 	/**
 	 * MS SQL Server connection is always multistatement.

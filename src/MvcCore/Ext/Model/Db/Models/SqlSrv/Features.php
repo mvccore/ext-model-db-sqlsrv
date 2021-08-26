@@ -11,14 +11,22 @@
  * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENSE.md
  */
 
-namespace MvcCore\Ext\Models\Db\Models\SqlSrvs;
+namespace MvcCore\Ext\Models\Db\Models\SqlSrv;
 
+/**
+ * @mixin \MvcCore\Ext\Models\Db\Models\SqlSrv
+ */
 trait Features {
-
-	use \MvcCore\Ext\Models\Db\Model\Props;
-	use \MvcCore\Ext\Models\Db\Model\DataMethods;
-	use \MvcCore\Ext\Models\Db\Model\Manipulation;
 	
+	use \MvcCore\Model\CommonResource;
+	use \MvcCore\Model\Comparers;
+	use \MvcCore\Model\Config;
+	use \MvcCore\Model\Converters;
+	use \MvcCore\Model\Props;
+
+	use \MvcCore\Ext\Models\Db\Model\DataMethods;
+	use \MvcCore\Ext\Models\Db\Model\EditMethods;
+	use \MvcCore\Ext\Models\Db\Model\Props;
 	
 	use \MvcCore\Model\MagicMethods,
 		\MvcCore\Ext\Models\Db\Model\MagicMethods {
@@ -48,5 +56,5 @@ trait Features {
 			\MvcCore\Model\Parsers::parseToDateTime as parseToDateTimeDefault;
 	}
 	
-	use \MvcCore\Ext\Models\Db\Models\SqlSrvs\ProviderResource;
+	use \MvcCore\Ext\Models\Db\Models\SqlSrv\Provider;
 }

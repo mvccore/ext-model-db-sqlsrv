@@ -17,16 +17,10 @@ class		SqlSrv
 implements	\MvcCore\IModel,
 			\MvcCore\Ext\Models\Db\IModel,
 			\MvcCore\Ext\Models\Db\Model\IConstants,
-			\MvcCore\Ext\Models\Db\Models\SqlSrvs\IConstants,
+			\MvcCore\Ext\Models\Db\Models\SqlSrv\IConstants,
 			\JsonSerializable {
 
-	use \MvcCore\Model\Props;
-	use \MvcCore\Model\Config;
-	use \MvcCore\Model\Resource;
-	use \MvcCore\Model\Converters;
-	use \MvcCore\Model\Comparers;
-
-	use \MvcCore\Ext\Models\Db\Models\SqlSrvs\Features;
+	use \MvcCore\Ext\Models\Db\Models\SqlSrv\Features;
 
 	/**
 	 * MvcCore Extension - Model - Db - version:

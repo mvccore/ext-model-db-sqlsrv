@@ -187,5 +187,8 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 			mb_strpos($dsnLower, ';multipleactiveresultsets=true;') !== FALSE ||
 			mb_strpos($dsnLower, ';multipleactiveresultsets=1;') !== FALSE
 		);
+
+		if ($this->usingOdbcDriver) 
+			$this->metaDataStatement = "SELECT @@ROWCOUNT AS [AffectedRows], COALESCE(SCOPE_IDENTITY(), @@IDENTITY) AS [LastInsertId];";
 	}
 }

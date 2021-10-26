@@ -34,5 +34,5 @@ trait Provider {
 	 * Edit resource class full name, specific for each extension.
 	 * @var string
 	 */
-	protected static $providerEditResourceClass = '\\MvcCore\\Ext\\Models\\Db\\Resources\\Edit';
+	protected static $providerEditResourceClass = '\\MvcCore\\Ext\\Models\\Db\\Resources\\Edits\\SqlSrv';
 }

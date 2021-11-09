@@ -85,19 +85,30 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 			$sqlItems[] = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;";
 		}
 
-		if ($name !== NULL) {
-			$toolClass = \MvcCore\Application::GetInstance()->GetToolClass();
-			$this->transactionName = $toolClass::GetUnderscoredFromPascalCase($name);
-			$sqlItems[] = "/* trans_start:{$this->transactionName} */";
-		}
-		$sqlItems[] = "BEGIN TRANSACTION;";
-		
-		if ($this->multiStatements) {
-			$this->provider->exec(implode("\n", $sqlItems));
+		if ($name === NULL) {
+			$this->transactionName = 'tsql_tran_' . str_replace('.', '', uniqid('', TRUE));
 		} else {
-			foreach ($sqlItems as $sqlItem)
-				$this->provider->exec($sqlItem);
+			$toolClass = \MvcCore\Application::GetInstance()->GetToolClass();
+			$this->transactionName = mb_substr($toolClass::GetUnderscoredFromPascalCase($name), 0, 32);
 		}
+		$sqlItems[] = "/* trans_start:{$this->transactionName} */";
+		
+		if (count($sqlItems) > 0) {
+			$debugging = $this->debugger !== NULL;
+			if ($debugging) $reqTime = microtime(TRUE);
+			$this->provider->exec(implode("\n", $sqlItems));
+			if ($debugging) 
+				$this->debugger->AddQuery(
+					implode("\n", $sqlItems), [], $reqTime, microtime(TRUE), $this
+				);
+		}
+
+		if ($debugging) $reqTime = microtime(TRUE);
+		$this->provider->beginTransaction();
+		if ($debugging) 
+			$this->debugger->AddQuery(
+				"BEGIN TRANSACTION {$this->transactionName};", [], $reqTime, microtime(TRUE), $this
+			);
 
 		$this->inTransaction = TRUE;
 
@@ -113,15 +124,18 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 	public function Commit ($flags = 0) {
 		if (!$this->inTransaction) 
 			return FALSE;
-		$sqlItems = [];
 
-		if ($this->transactionName !== NULL) 
-			$sqlItems[] = "/* trans_commit:{$this->transactionName} */";
+		$debugging = $this->debugger !== NULL;
+		if ($debugging) $reqTime = microtime(TRUE);
 
-		$sqlItems[] = "COMMIT TRANSACTION;";
-
-		$this->provider->exec(implode("\n", $sqlItems));
+		$this->provider->exec("/* trans_commit:{$this->transactionName} */");
+		$this->provider->commit();
 		
+		if ($debugging) 
+			$this->debugger->AddQuery(
+				"COMMIT TRANSACTION {$this->transactionName};", [], $reqTime, microtime(TRUE), $this
+			);
+
 		$this->inTransaction  = FALSE;
 		$this->transactionName = NULL;
 		
@@ -138,14 +152,16 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 		if (!$this->inTransaction) 
 			return FALSE;
 		
-		$sqlItems = [];
+		$debugging = $this->debugger !== NULL;
+		if ($debugging) $reqTime = microtime(TRUE);
 		
-		if ($this->transactionName !== NULL) 
-			$sqlItems[] = "/* trans_rollback:{$this->transactionName} */";
-
-		$sqlItems[] = "ROLLBACK TRANSACTION;";
-
-		$this->provider->exec(implode("\n", $sqlItems));
+		$this->provider->exec("/* trans_rollback:{$this->transactionName} */");
+		$this->provider->rollBack();
+		
+		if ($debugging) 
+			$this->debugger->AddQuery(
+				"ROLLBACK TRAN {$this->transactionName};", [], $reqTime, microtime(TRUE), $this
+			);
 
 		$this->inTransaction  = FALSE;
 		$this->transactionName = NULL;

@@ -19,6 +19,11 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 			\MvcCore\Ext\Models\Db\Models\SqlSrv\IConstants {
 
 	/**
+	 * SQL metadata statement with fields `AffectedRows` and `LastInsertId`.
+	 */
+	const METADATA_STATEMENT = "SELECT @@ROWCOUNT AS [AffectedRows], COALESCE(SCOPE_IDENTITY(), @@IDENTITY) AS [LastInsertId];";
+
+	/**
 	 * MS SQL Server connection is always multistatement.
 	 * @var bool
 	 */
@@ -205,6 +210,6 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 		);
 
 		if ($this->usingOdbcDriver) 
-			$this->metaDataStatement = "SELECT @@ROWCOUNT AS [AffectedRows], COALESCE(SCOPE_IDENTITY(), @@IDENTITY) AS [LastInsertId];";
+			$this->metaDataStatement = static::METADATA_STATEMENT;
 	}
 }

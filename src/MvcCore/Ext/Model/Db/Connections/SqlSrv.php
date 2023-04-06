@@ -96,10 +96,10 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 			$toolClass = \MvcCore\Application::GetInstance()->GetToolClass();
 			$this->transactionName = mb_substr($toolClass::GetUnderscoredFromPascalCase($name), 0, 32);
 		}
-		$sqlItems[] = "/* trans_start:{$this->transactionName} */";
-		
+
+		$debugging = $this->debugger !== NULL;
 		if (count($sqlItems) > 0) {
-			$debugging = $this->debugger !== NULL;
+			$sqlItems[] = "/* trans_start:{$this->transactionName} */";
 			if ($debugging) $reqTime = microtime(TRUE);
 			$this->provider->exec(implode("\n", $sqlItems));
 			if ($debugging) 

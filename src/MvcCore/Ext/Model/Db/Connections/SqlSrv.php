@@ -41,7 +41,12 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 	 * @return string
 	 */
 	public function QuoteName ($identifierName) {
-		if (mb_substr($identifierName, 0, 1) !== '[' && mb_substr($identifierName, -1, 1) !== ']') {
+		$firstChar = mb_substr($identifierName, 0, 1);
+		if (
+			$firstChar !== '#' &&
+			$firstChar !== '[' && 
+			mb_substr($identifierName, -1, 1) !== ']'
+		) {
 			if (mb_strpos($identifierName, '.') !== FALSE) 
 				return '['.str_replace('.', '].[', $identifierName).']';
 			return '['.$identifierName.']';

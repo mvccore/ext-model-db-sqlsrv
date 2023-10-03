@@ -36,7 +36,7 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 	protected $multipleActiveResultSets = FALSE;
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $identifierName
 	 * @return string
 	 */
@@ -64,7 +64,7 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  int    $flags Transaction isolation, read/write mode and consistent snapshot option.
 	 * @param  string $name  String without spaces to identify transaction in logs.
 	 * @throws \PDOException|\RuntimeException
@@ -126,7 +126,7 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  int $flags Transaction chaininig.
 	 * @throws \PDOException
 	 * @return bool
@@ -182,7 +182,7 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \Throwable $e 
 	 * @return bool
 	 */

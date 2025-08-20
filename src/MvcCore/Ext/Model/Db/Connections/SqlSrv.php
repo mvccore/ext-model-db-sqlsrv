@@ -208,7 +208,7 @@ implements	\MvcCore\Ext\Models\Db\Model\IConstants,
 	protected function setUpConnectionSpecifics () {
 		parent::setUpConnectionSpecifics();
 		
-		$dsnLower = ';' . trim(mb_strtolower($this->dsn), ';') . ';';
+		$dsnLower = ';' . trim(str_replace([" ", "\t"], '', mb_strtolower($this->dsn)), ';') . ';';
 		$this->multipleActiveResultSets = (
 			mb_strpos($dsnLower, ';multipleactiveresultsets=true;') !== FALSE ||
 			mb_strpos($dsnLower, ';multipleactiveresultsets=1;') !== FALSE
